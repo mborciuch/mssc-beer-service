@@ -39,6 +39,13 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
+    public BeerDto getByUpc(String upc) {
+        return beerMapper.beerToBeerDto(
+                beerRepository.findByUpc(upc).orElseThrow(NotFoundException::new)
+        );
+    }
+
+    @Override
     public BeerPagedList beerList(String beerName, BeerStyleEnum beerStyle, boolean withInventory, PageRequest pageRequest) {
         BeerPagedList beerPagedList;
         Page<Beer> pageBeer;

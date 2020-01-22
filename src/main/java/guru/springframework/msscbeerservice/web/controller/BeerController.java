@@ -4,7 +4,7 @@ import guru.springframework.msscbeerservice.service.BeerService;
 import guru.springframework.msscbeerservice.web.model.BeerDto;
 import guru.springframework.msscbeerservice.web.model.BeerPagedList;
 import guru.springframework.msscbeerservice.web.model.BeerStyleEnum;
-import lombok.Getter;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +27,7 @@ public class BeerController {
     }
 
     @GetMapping(produces = "application/json")
+    @Cacheable(value = "beerListCache", condition = "#withInventory == false ")
     public ResponseEntity<BeerPagedList> listBeer(@RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                                   @RequestParam(value = "pageSize", required = false) Integer pageSize,
                                                   @RequestParam(value = "beerName", required = false) String beerName,
@@ -46,9 +47,16 @@ public class BeerController {
     }
 
     @GetMapping("/{beerId}")
+    @Cacheable(value = "beerCache",key = "#beerId",condition = "#withInventory == false ")
     public ResponseEntity<BeerDto> getBeerById(@PathVariable("beerId") UUID beerId,
                                                @RequestParam(value = "withInventory", required = false) Boolean withInventory){
         return new ResponseEntity<>(beerService.getById(beerId,withInventory), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{beerUpc}", params = "by=upc")
+    @Cacheable(value = "beerUpcCache",key = "#beerUpc")
+    public ResponseEntity<BeerDto> getBeerByUpc(@PathVariable("beerUpc") String beerUpc){
+        return new ResponseEntity<>(beerService.getByUpc(beerUpc), HttpStatus.OK);
     }
 
     @PostMapping
