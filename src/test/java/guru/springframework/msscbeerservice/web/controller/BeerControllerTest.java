@@ -47,29 +47,16 @@ class BeerControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
+    @MockBean
+    BeerService beerService;
+
     @Test
     void getBeerById() throws Exception {
 
-        mockMvc.perform(get("/api/v1/beer/{beerId}",  UUID.randomUUID().toString())
-                .param("iscold", "yes")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andDo(document("v1/beer-get",
-                        pathParameters(
-                                parameterWithName("beerId").description( "UUID of desired beer to get")),
-                        requestParameters(
-                                parameterWithName("iscold").description("Is Beer cold query param")),
-                        responseFields(
-                                fieldWithPath("id").description("Id of Beer"),
-                                fieldWithPath("version").description("Version number"),
-                                fieldWithPath("createdDate").description("Date Created"),
-                                fieldWithPath("lastModifiedDate").description("Date Updated"),
-                                fieldWithPath("beerName").description("Beer Name"),
-                                fieldWithPath("beerStyle").description("Beer Style"),
-                                fieldWithPath("upc").description("UPC of Beer"),
-                                fieldWithPath("price").description("Price"),
-                                fieldWithPath("quantityOnHand").description("Quantity On hand")
-                        )));
+        given(beerService.getById(any(), anyBoolean())).willReturn(getValidBeerDto());
+
+        mockMvc.perform(get("/api/v1/beer/" + UUID.randomUUID().toString()).param("withInventory", "false").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
 
     }
 
@@ -101,6 +88,8 @@ class BeerControllerTest {
 
     @Test
     void updateBeerById() throws Exception {
+        given(beerService.updateBeer(any(), any())).willReturn(getValidBeerDto());
+
         BeerDto beerDto = getValidBeerDto();
         String beerDtoJson = objectMapper.writeValueAsString(beerDto);
 
