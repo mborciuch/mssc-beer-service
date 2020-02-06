@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class BeerInventoryServiceImplTest {
 
     @Autowired
-    BeerInventoryService beerInventoryService;
+   BeerInventoryService beerInventoryService;
 
     @Test
     void getBeerInventory() {

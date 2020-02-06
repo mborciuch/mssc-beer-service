@@ -1,10 +1,10 @@
 package guru.springframework.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import guru.sfg.brewery.model.BeerDto;
+import guru.sfg.brewery.model.BeerStyleEnum;
 import guru.springframework.bootstrap.BeerLoader;
 import guru.springframework.service.BeerService;
-import guru.springframework.web.model.BeerDto;
-import guru.springframework.web.model.BeerStyleEnum;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +26,8 @@ import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -54,7 +54,6 @@ class BeerControllerTest {
 
         mockMvc.perform(get("/api/v1/beer/" + UUID.randomUUID().toString()).param("withInventory", "false").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-
     }
 
     @Test
@@ -80,7 +79,6 @@ class BeerControllerTest {
                                 fields.withPath("price").description("Beer Price"),
                                 fields.withPath("quantityOnHand").ignored()
                         )));
-
     }
 
     @Test
@@ -96,8 +94,7 @@ class BeerControllerTest {
                 .andExpect(status().isNoContent());
     }
 
-
-    BeerDto getValidBeerDto(){
+    BeerDto getValidBeerDto() {
         return BeerDto.builder()
                 .beerName("My Beer")
                 .beerStyle(BeerStyleEnum.ALE)
@@ -120,5 +117,4 @@ class BeerControllerTest {
                             .descriptionsForProperty(path), ". ")));
         }
     }
-
 }

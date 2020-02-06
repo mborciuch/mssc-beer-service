@@ -1,9 +1,9 @@
 package guru.springframework.web.controller;
 
+import guru.sfg.brewery.model.BeerDto;
+import guru.sfg.brewery.model.BeerPagedList;
+import guru.sfg.brewery.model.BeerStyleEnum;
 import guru.springframework.service.BeerService;
-import guru.springframework.web.model.BeerDto;
-import guru.springframework.web.model.BeerPagedList;
-import guru.springframework.web.model.BeerStyleEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
@@ -33,7 +33,7 @@ public class BeerController {
     public ResponseEntity<BeerPagedList> listBeer(@RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                                   @RequestParam(value = "pageSize", required = false) Integer pageSize,
                                                   @RequestParam(value = "beerName", required = false) String beerName,
-                                                  @RequestParam(value = "beerStyle", required = false)BeerStyleEnum beerStyle,
+                                                  @RequestParam(value = "beerStyle", required = false) BeerStyleEnum beerStyle,
                                                   @RequestParam(value = "withInventory", required = false) Boolean withInventory){
 
         if(pageNumber == null || pageNumber < 0){

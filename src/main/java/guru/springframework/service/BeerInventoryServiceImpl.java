@@ -1,6 +1,6 @@
 package guru.springframework.service;
 
-import guru.springframework.web.model.BeerInventoryDto;
+import guru.sfg.brewery.model.BeerInventoryDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;

@@ -1,7 +1,7 @@
 package guru.springframework.web.mapper;
 
+import guru.sfg.brewery.model.BeerDto;
 import guru.springframework.domain.Beer;
-import guru.springframework.web.model.BeerDto;
 import org.mapstruct.DecoratedWith;
 import org.mapstruct.Mapper;
 
